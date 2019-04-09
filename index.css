@@ -65,8 +65,33 @@ p {
 }
 
 @media only screen and (max-width: 414px) {
+  body {
+    margin: 1%;
+  }
+
   .square {
-    width: 49%;
-    padding-bottom: 49%;
+    width: 48%;
+    padding-bottom: 48%;
+    margin: 1%;
+  }
+
+  .square.active {
+    margin: calc(1% - 1px);
+  }
+}
+
+@media only screen and (min-width: 1919px) {
+  body {
+    margin: 0.2%;
+  }
+
+  .square {
+    width: 9.6%;
+    padding-bottom: 9.6%;
+    margin: 0.2%;
+  }
+
+  .square.active {
+    margin: calc(0.2% - 1px);
   }
 }
