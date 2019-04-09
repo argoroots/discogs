@@ -33,7 +33,7 @@ exports.handler = async (event) => {
       id: p.id,
       title: p.basic_information.title,
       year: p.basic_information.year,
-      artist: p.basic_information.artists[0].name,
+      artist: p.basic_information.artists[0].name.replace('(2)', '').replace('(3)', '').replace('(4)', '').replace('(5)', '').replace('(6)', ''),
       picture: p.basic_information.cover_image,
       url: p.basic_information.resource_url
     }
