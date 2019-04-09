@@ -1,0 +1,22 @@
+body {
+  background-color: #1E1E1E;
+  margin: 0.5%;
+}
+
+.square {
+  float: left;
+  position: relative;
+  width: 19%;
+  padding-bottom: 19%;
+  margin: 0.5%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media only screen and (max-width: 414px) {
+  .square {
+    width: 49%;
+    padding-bottom: 49%;
+  }
+}

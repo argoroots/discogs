@@ -1,6 +1,13 @@
-var app = new Vue({
+new Vue({
   el: '#app',
-  data: {
-    message: 'Hello Vue!'
+  data () {
+    return {
+      collection: null
+    }
+  },
+  mounted () {
+    axios
+      .get('https://47vr89cjrd.execute-api.eu-central-1.amazonaws.com/prod')
+      .then(response => (this.collection = response.data))
   }
 })
