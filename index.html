@@ -7,7 +7,13 @@
   </head>
   <body>
     <div id="app">
-      <div v-for="item in collection" class="square" :style="{ 'background-image': `url('${item.picture}')` }"></div>
+      <div v-for="item in collection" class="square" :class="{ active: item.active }" :style="{ 'background-image': `url('${item.picture}')` }" @mouseover="item.active = true" @mouseleave="item.active = false">
+        <div v-if="item.active" class="info">
+          <h2>{{ item.artist }}</h2>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.year }}</p>
+        </div>
+      </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0/dist/axios.min.js"></script>

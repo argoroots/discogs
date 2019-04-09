@@ -1,5 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background-color: #1E1E1E;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  background-color: #1e1e1e;
   margin: 0.5%;
 }
 
@@ -12,6 +18,50 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.square.active {
+  border: 1px solid rgba(235,235,235, 0.9);
+  margin: calc(0.5% - 1px);
+}
+
+.info {
+  position: absolute;
+  margin-top: 67%;
+  height: 24%;
+  width: 90%;
+  padding: 5%;
+  color: #1e1e1e;
+  background-color: rgba(235,235,235, 0.9);
+  overflow: hidden;
+}
+
+h2 {
+  margin-bottom: 8px;
+  font-size: 17px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media only screen and (max-width: 414px) {
