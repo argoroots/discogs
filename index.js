@@ -15,7 +15,7 @@ new Vue({
           i.artist = i.artist
           return i
         })
-        this.collection = response.data
+        this.collection = response.data.collection
       })
   },
   computed: {

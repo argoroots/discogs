@@ -1,12 +1,11 @@
 const http = require('https')
 
-
-const getDiscogsJson = async () => {
+const getDiscogsJson = async (path) => {
   return new Promise((resolve, reject) => {
     const options = {
       host: 'api.discogs.com',
       port: 443,
-      path: `/users/${process.env.DISCOGS_USER}/collection/folders/0/releases?per_page=50&sort=artist&token=${process.env.DISCOGS_TOKEN}`,
+      path: `/users/${process.env.DISCOGS_USER}/${path}?per_page=50&sort=artist&token=${process.env.DISCOGS_TOKEN}`,
       method: 'GET',
       headers: { 'User-Agent': 'AWS Lambda' }
     }
@@ -19,25 +18,30 @@ const getDiscogsJson = async () => {
 
       response.on('end', function() {
         var parsed = JSON.parse(body)
-        resolve(parsed.releases)
+        resolve(parsed)
       })
     })
   })
 }
 
+const parseData = (data) => {
+  return {
+    title: data.basic_information.title,
+    year: data.basic_information.year,
+    artist: data.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
+    picture: data.basic_information.cover_image
+  }
+}
 
 exports.handler = async (event) => {
-  const posts = await getDiscogsJson()
-  const result = posts.map(p => {
-    return {
-      id: p.id,
-      title: p.basic_information.title,
-      year: p.basic_information.year,
-      artist: p.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
-      picture: p.basic_information.cover_image,
-      url: p.basic_information.resource_url
-    }
-  })
+  const collectionPromise = getDiscogsJson('/collection/folders/0/releases')
+  const wantlistPromise = getDiscogsJson('/wants')
+
+  const collection = await collectionPromise
+  const wantlist = await wantlistPromise
+
+  const collectionResult = collection.releases.map(parseData)
+  const wantlistResult = collection.releases.map(parseData)
 
   const response = {
     statusCode: 200,
@@ -45,7 +49,10 @@ exports.handler = async (event) => {
       'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'max-age=43200, must-revalidate'
     },
-    body: JSON.stringify(result)
+    body: JSON.stringify({
+      collection: collectionResult,
+      wantlist: wantlistResult
+    })
   }
 
   return response
