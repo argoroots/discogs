@@ -53,9 +53,6 @@ input {
 }
 
 p {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
@@ -64,6 +61,10 @@ p {
 p.artist {
   text-transform: uppercase;
   font-weight: 700;
+}
+
+p.year {
+  color: #848484;
 }
 
 @media only screen and (max-width: 414px) {
