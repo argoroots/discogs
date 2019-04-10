@@ -41,7 +41,7 @@ exports.handler = async (event) => {
   const wantlist = await wantlistPromise
 
   const collectionResult = collection.releases.map(parseData)
-  const wantlistResult = collection.releases.map(parseData)
+  const wantlistResult = wantlist.wants.map(parseData)
 
   const response = {
     statusCode: 200,

@@ -11,7 +11,7 @@ body {
 
 .header {
   margin: 0 0.5%;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 input {
@@ -19,14 +19,33 @@ input {
   width: calc(19% - 8px);
   margin: 0 auto;
   padding: 8px;
-  font-size: 16px;
   font-weight: 200;
+  font-size: 16px;
+  line-height: 28px;
   color: #ffffff;
   background-color: rgba(30, 30, 30, 0.9);
   border: none;
   border-bottom: 1px solid rgba(235, 235, 235, 0.9);
   border-radius: 0;
   outline: none;
+}
+
+.toggle {
+  position: absolute;
+  right: 1%;
+  top: 40px;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: rgba(235, 235, 235, 0.5);
+  border: 1px solid rgba(235, 235, 235, 0.3);
+  border-radius: 2px;
+  background: none;
+  cursor: pointer;
+}
+
+.toggle:hover {
+  color: rgba(235, 235, 235, 0.8);
+  border: 1px solid rgba(235, 235, 235, 0.6);
 }
 
 .square {
@@ -73,7 +92,13 @@ p.year {
   }
 
   input {
-    width: calc(100% - 8px);
+    width: calc(96% - 8px);
+    margin-top: 30px;
+  }
+
+  .toggle {
+    top: 30px;
+    right: 2%;
   }
 
   .square {

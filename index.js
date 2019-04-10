@@ -3,6 +3,8 @@ new Vue({
   data () {
     return {
       collection: null,
+      wantlist: null,
+      activeList: 'collection',
       q: ''
     }
   },
@@ -10,23 +12,27 @@ new Vue({
     axios
       .get('https://47vr89cjrd.execute-api.eu-central-1.amazonaws.com/prod')
       .then(response => {
-        response.data.map(i => {
+        this.collection = response.data.collection.map(i => {
           i.active = false
-          i.artist = i.artist
           return i
         })
-        this.collection = response.data.collection
+        this.wantlist = response.data.wantlist.map(i => {
+          i.active = false
+          return i
+        })
       })
   },
   computed: {
     filteredCollection () {
       if (!this.q) {
-        return this.collection
+        return this[this.activeList]
       }
 
-      return this.collection.filter((i) => {
+      const result = this[this.activeList].filter((i) => {
         return i.title.toLowerCase().includes(this.q.toLowerCase()) || i.artist.toLowerCase().includes(this.q.toLowerCase())
       })
+
+      return result
     }
   }
 })

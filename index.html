@@ -9,7 +9,9 @@
   <body>
     <div id="app">
       <div class="header">
-        <input type="text" name="" value="" v-model="q" placeholder="Search Record">
+        <a v-if="activeList === 'collection'" @click="activeList = 'wantlist'" class="toggle">Show Wantlist</a>
+        <a v-if="activeList === 'wantlist'" @click="activeList = 'collection'" class="toggle">Show Collection</a>
+        <input type="text" name="" value="" v-model="q" :placeholder="'Search from ' + activeList">
       </div>
       <div v-for="item in filteredCollection" class="square" :style="{ 'background-image': `url('${item.picture}')` }" @mouseover="item.active = true" @mouseleave="item.active = false">
         <div v-if="item.active" class="info">
