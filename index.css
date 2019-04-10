@@ -9,6 +9,26 @@ body {
   margin: 0.5%;
 }
 
+.header {
+  margin: 0 0.5%;
+  padding: 20px;
+}
+
+input {
+  display: block;
+  width: calc(19% - 8px);
+  margin: 0 auto;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: 200;
+  color: #ffffff;
+  background-color: rgba(30, 30, 30, 0.9);
+  border: none;
+  border-bottom: 1px solid rgba(235, 235, 235, 0.9);
+  outline: none;
+}
+
+
 .square {
   float: left;
   position: relative;
@@ -23,7 +43,7 @@ body {
 }
 
 .square.active {
-  border: 1px solid rgba(235,235,235, 0.9);
+  border: 1px solid rgba(235, 235, 235, 0.9);
   margin: calc(0.5% - 1px);
 }
 
@@ -34,7 +54,7 @@ body {
   width: 90%;
   padding: 5%;
   color: #1e1e1e;
-  background-color: rgba(235,235,235, 0.9);
+  background-color: rgba(235, 235, 235, 0.9);
   overflow: hidden;
 }
 
@@ -69,6 +89,10 @@ p {
     margin: 1%;
   }
 
+  input {
+    width: calc(100% - 8px);
+  }
+
   .square {
     width: 48%;
     padding-bottom: 48%;
@@ -83,6 +107,10 @@ p {
 @media only screen and (min-width: 1919px) {
   body {
     margin: 0.2%;
+  }
+
+  input {
+    width: calc(20% - 8px);
   }
 
   .square {

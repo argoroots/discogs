@@ -2,7 +2,8 @@ new Vue({
   el: '#app',
   data () {
     return {
-      collection: null
+      collection: null,
+      q: ''
     }
   },
   mounted () {
@@ -16,5 +17,16 @@ new Vue({
         })
         this.collection = response.data
       })
+  },
+  computed: {
+    filteredCollection () {
+      if (!this.q) {
+        return this.collection
+      }
+
+      return this.collection.filter((i) => {
+        return i.title.toLowerCase().includes(this.q.toLowerCase()) || i.artist.toLowerCase().includes(this.q.toLowerCase())
+      })
+    }
   }
 })
