@@ -11,10 +11,10 @@
       <div class="header">
         <input type="text" name="" value="" v-model="q" placeholder="Search Record">
       </div>
-      <div v-for="item in filteredCollection" class="square" :class="{ active: item.active }" :style="{ 'background-image': `url('${item.picture}')` }" @mouseover="item.active = true" @mouseleave="item.active = false">
+      <div v-for="item in filteredCollection" class="square" :style="{ 'background-image': `url('${item.picture}')` }" @mouseover="item.active = true" @mouseleave="item.active = false">
         <div v-if="item.active" class="info">
-          <h2>{{ item.artist }}</h2>
-          <h3>{{ item.title }}</h3>
+          <p class="artist">{{ item.artist }}</p>
+          <p>{{ item.title }}</p>
           <p>{{ item.year }}</p>
         </div>
       </div>

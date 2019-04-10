@@ -29,7 +29,6 @@ input {
   outline: none;
 }
 
-
 .square {
   float: left;
   position: relative;
@@ -43,15 +42,9 @@ input {
   cursor: pointer;
 }
 
-.square.active {
-  border: 1px solid rgba(235, 235, 235, 0.9);
-  margin: calc(0.5% - 1px);
-}
-
 .info {
   position: absolute;
-  margin-top: 67%;
-  height: 24%;
+  bottom: 0;
   width: 90%;
   padding: 5%;
   color: #1e1e1e;
@@ -59,30 +52,18 @@ input {
   overflow: hidden;
 }
 
-h2 {
-  margin-bottom: 8px;
-  font-size: 17px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-h3 {
-  margin-bottom: 8px;
-  font-size: 16px;
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 p {
-  font-size: 16px;
-  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+p.artist {
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 @media only screen and (max-width: 414px) {
@@ -100,8 +81,14 @@ p {
     margin: 1%;
   }
 
-  .square.active {
-    margin: calc(1% - 1px);
+  .info {
+    width: 96%;
+    padding: 2%;
+  }
+
+  p {
+    font-size: 12px;
+    line-height: 14px;
   }
 }
 
@@ -111,16 +98,12 @@ p {
   }
 
   input {
-    width: calc(20  % - 8px);
+    width: calc(20 % - 8px);
   }
 
   .square {
     width: 9.6%;
     padding-bottom: 9.6%;
     margin: 0.2%;
-  }
-
-  .square.active {
-    margin: calc(0.2% - 1px);
   }
 }
