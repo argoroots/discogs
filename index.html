@@ -13,7 +13,13 @@
         <a v-if="activeList === 'wantlist'" @click="activeList = 'collection'" class="toggle">Show Collection</a>
         <input type="text" name="" value="" v-model="q" :placeholder="'Search from ' + activeList">
       </div>
-      <div v-for="item in filteredCollection" class="square" :style="{ 'background-image': `url('${item.picture}')` }" @mouseover="item.active = true" @mouseleave="item.active = false">
+      <div
+        v-for="item in filteredCollection"
+        class="square"
+        :style="{ 'background-image': `url('${item.picture}')` }"
+        @mouseover="item.active = true"
+        @mouseleave="item.active = false"
+      >
         <div v-if="item.active" class="info">
           <p class="artist">{{ item.artist }}</p>
           <p>{{ item.title }}</p>
