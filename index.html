@@ -9,7 +9,7 @@
   <body>
     <div id="app">
       <div class="header">
-        <input type="text" name="" value="" v-model="q" autofocus placeholder="Search Record">
+        <input type="text" name="" value="" v-model="q" placeholder="Search Record">
       </div>
       <div v-for="item in filteredCollection" class="square" :class="{ active: item.active }" :style="{ 'background-image': `url('${item.picture}')` }" @mouseover="item.active = true" @mouseleave="item.active = false">
         <div v-if="item.active" class="info">
