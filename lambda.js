@@ -29,7 +29,8 @@ const parseData = (data) => {
     title: data.basic_information.title,
     year: data.basic_information.year,
     artist: data.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
-    picture: data.basic_information.cover_image
+    picture: data.basic_information.cover_image,
+    format: data.basic_information.formats[0].descriptions.concat([data.basic_information.formats[0].text]).filter(x => !!x)
   }
 }
 

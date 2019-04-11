@@ -84,7 +84,12 @@ p.artist {
 }
 
 p.year {
-  color: #848484;
+    float: right;
+}
+
+p.year, p.format {
+  margin-top: 4px;
+  font-size: 12px;
 }
 
 @media only screen and (max-width: 414px) {
@@ -117,6 +122,9 @@ p.year {
     font-size: 12px;
     line-height: 14px;
   }
+    p.year, p.format {
+      font-size: 10px;
+    }
 }
 
 @media only screen and (min-width: 1919px) {
