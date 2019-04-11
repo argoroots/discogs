@@ -5,7 +5,7 @@ const getDiscogsJson = async (path) => {
     const options = {
       host: 'api.discogs.com',
       port: 443,
-      path: `/users/${process.env.DISCOGS_USER}/${path}?per_page=50&sort=artist&token=${process.env.DISCOGS_TOKEN}`,
+      path: `/users/${process.env.DISCOGS_USER}/${path}?per_page=250&sort=artist&token=${process.env.DISCOGS_TOKEN}`,
       method: 'GET',
       headers: { 'User-Agent': 'AWS Lambda' }
     }
