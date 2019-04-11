@@ -9,8 +9,8 @@
   <body>
     <div id="app">
       <div class="header">
-        <a v-if="activeList === 'collection'" @click="activeList = 'wantlist'" class="toggle">Show Wantlist</a>
-        <a v-if="activeList === 'wantlist'" @click="activeList = 'collection'" class="toggle">Show Collection</a>
+        <a v-if="activeList === 'collection'" @click.prevent="setList('wantlist')" href='#wantlist' class="toggle">Show Wantlist</a>
+        <a v-if="activeList === 'wantlist'" @click.prevent="setList('collection')" href='#collection' class="toggle">Show Collection</a>
         <input type="text" name="" value="" v-model="q" :placeholder="'Search from ' + activeList">
       </div>
       <div

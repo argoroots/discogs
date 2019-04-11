@@ -36,6 +36,7 @@ input {
   top: 40px;
   padding: 2px 4px;
   font-size: 12px;
+  text-decoration: none;
   color: rgba(235, 235, 235, 0.5);
   border: 1px solid rgba(235, 235, 235, 0.3);
   border-radius: 2px;

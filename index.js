@@ -4,7 +4,7 @@ new Vue({
     return {
       collection: null,
       wantlist: null,
-      activeList: 'collection',
+      activeList: location.hash.replace('#', '') || 'collection',
       q: ''
     }
   },
@@ -33,6 +33,12 @@ new Vue({
       })
 
       return result
+    }
+  },
+  methods: {
+    setList (list) {
+      this.activeList = list
+      location.hash = this.activeList
     }
   }
 })
