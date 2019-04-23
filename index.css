@@ -84,12 +84,20 @@ p.artist {
 }
 
 p.year {
-    float: right;
+  float: right;
 }
 
 p.year, p.format {
   margin-top: 4px;
   font-size: 12px;
+}
+
+.footer {
+  clear: both;
+  padding: 20px;
+  font-size: 12px;
+  text-align: center;
+  color: rgba(235, 235, 235, 0.5);
 }
 
 @media only screen and (max-width: 414px) {
