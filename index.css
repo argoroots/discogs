@@ -43,10 +43,17 @@ input {
   background: none;
   cursor: pointer;
 }
+
 .toggle.left {
   position: inherit;
   right: inherit;
   margin-right: 4px;
+}
+
+.toggle.active {
+  color: rgba(235, 235, 235, 0.8);
+  background: rgba(235, 235, 235, 0.2);
+  border: 1px solid rgba(235, 235, 235, 0.6);
 }
 
 .toggle:hover {

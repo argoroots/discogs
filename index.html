@@ -11,7 +11,7 @@
       <div class="header">
         <a v-if="activeList === 'collection'" @click.prevent="setList('wantlist')" href='#wantlist' class="toggle">Show Wantlist</a>
         <a v-if="activeList === 'wantlist'" @click.prevent="setList('collection')" href='#collection' class="toggle">Show Collection</a>
-        <a v-for="tag in tags" @click.prevent="q = tag" class="toggle left">{{ tag }}</a>
+        <a v-for="tag in tags" @click.prevent="filterByTag(tag)" :class="{ active: isActiveTag(tag) }" class="toggle left">{{ tag }}</a>
         <input type="text" name="" value="" v-model="q" :placeholder="'Search from ' + activeList">
       </div>
       <div

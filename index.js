@@ -51,12 +51,28 @@ new Vue({
       })
 
       return result
-    },
+    }
   },
   methods: {
     setList (list) {
       this.activeList = list
       location.hash = this.activeList
+    },
+    filterByTag (tag) {
+        let q = this.q.split(' ')
+
+        if (q.includes(tag)) {
+            q = q.filter(i => i !== tag)
+        } else {
+            q.push(tag)
+        }
+
+        q.sort()
+
+        this.q = q.join(' ')
+    },
+    isActiveTag (tag) {
+        return this.q.split(' ').filter(i => i === tag).length > 0
     }
   }
 })
