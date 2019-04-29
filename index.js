@@ -38,29 +38,20 @@ new Vue({
         return this[this.activeList]
       }
 
-      const result = this[this.activeList].filter((i) => {
-          console.log(this.tags);
-        return i.title.toLowerCase().includes(this.q.toLowerCase()) || i.artist.toLowerCase().includes(this.q.toLowerCase()) || i.tags.includes(this.q.toLowerCase())
+      const result = this[this.activeList].filter((item) => {
+        const q = this.q.toLowerCase().split(' ')
+
+        for (var i = 0; i < q.length; i++) {
+            if (!(item.title.toLowerCase().includes(q[i]) || item.artist.toLowerCase().includes(q[i]) || item.tags.includes(q[i]))) {
+                return false
+            }
+        }
+
+        return true
       })
 
       return result
     },
-    // tags () {
-    //     if (!this.collection) { return [] }
-    //
-    //     let tags = {}
-    //
-    //     this.collection.forEach(item => {
-    //         item.tags.forEach(tag => {
-    //             tags[tag] = true
-    //         })
-    //     })
-    //
-    //     let keys = Object.keys(tags)
-    //     keys.sort()
-    //
-    //     return keys
-    // }
   },
   methods: {
     setList (list) {
