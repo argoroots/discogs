@@ -69,7 +69,7 @@ new Vue({
 
         q.sort()
 
-        this.q = q.join(' ')
+        this.q = q.join(' ').trim() ? q.join(' ').trim() + ' ' : ''
     },
     isActiveTag (tag) {
         return this.q.split(' ').filter(i => i === tag).length > 0
