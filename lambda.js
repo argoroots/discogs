@@ -25,13 +25,55 @@ const getDiscogsJson = async (path) => {
 }
 
 const parseData = (data) => {
-  return {
+  let result = {
     title: data.basic_information.title,
     year: data.basic_information.year,
     artist: data.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
     picture: data.basic_information.cover_image,
-    format: data.basic_information.formats[0].descriptions.concat([data.basic_information.formats[0].text]).filter(x => !!x)
+    format: [],
+    tags: []
   }
+
+  if(data.basic_information.formats[0].name) {
+    result.format.push(data.basic_information.formats[0].name)
+  }
+  if(data.basic_information.formats[0].text) {
+    result.format.push(data.basic_information.formats[0].text)
+  }
+  if(data.basic_information.formats[0].descriptions) {
+    result.format = result.format.concat(data.basic_information.formats[0].descriptions)
+  }
+
+  if (result.format.length > 0) {
+    result.format = [...new Set(result.format)]
+    result.format.sort()
+
+    if (result.format.includes('7"')) {
+      result.tags.push('7"')
+    } else if (result.format.includes('10"')) {
+      result.tags.push('10"')
+    } else if (result.format.includes('LP') || result.format.includes('12"')) {
+      result.tags.push('12"')
+    }
+
+    if (result.format.includes('CD')) {
+      result.tags.push('cd')
+    }
+  }
+
+  if (data.notes) {
+      const tags = data.notes.filter(n => n.field_id === 4).map(n => n.value)
+      for (var i = 0; i < tags.length; i++) {
+          result.tags = result.tags.concat(tags[i].toLowerCase().split(',').map(v => v.trim()))
+      }
+  }
+
+  if (result.tags.length > 0) {
+    result.tags = [...new Set(result.tags)]
+    result.tags.sort()
+  }
+
+  return result
 }
 
 exports.handler = async (event) => {

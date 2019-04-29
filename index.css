@@ -33,7 +33,7 @@ input {
 .toggle {
   position: absolute;
   right: 1%;
-  top: 40px;
+  top: 28px;
   padding: 2px 4px;
   font-size: 12px;
   text-decoration: none;
@@ -42,6 +42,11 @@ input {
   border-radius: 2px;
   background: none;
   cursor: pointer;
+}
+.toggle.left {
+  position: inherit;
+  right: inherit;
+  margin-right: 4px;
 }
 
 .toggle:hover {
@@ -111,7 +116,7 @@ p.year, p.format {
   }
 
   .toggle {
-    top: 30px;
+    top: 24px;
     right: 2%;
   }
 
