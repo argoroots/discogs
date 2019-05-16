@@ -3,8 +3,8 @@ new Vue({
   data () {
     return {
       tags: [],
-      collection: null,
-      wantlist: null,
+      collection: [],
+      wantlist: [],
       activeList: location.hash.replace('#', '') || 'collection',
       q: ''
     }
@@ -16,7 +16,7 @@ new Vue({
         let tags = {}
 
         this.collection = response.data.collection.map(i => {
-          i.tags.forEach(tag => {
+          i.tag.forEach(tag => {
               tags[tag] = false
           })
           i.active = false
@@ -42,7 +42,7 @@ new Vue({
         const q = this.q.toLowerCase().split(' ')
 
         for (var i = 0; i < q.length; i++) {
-            if (!(item.title.toLowerCase().includes(q[i]) || item.artist.toLowerCase().includes(q[i]) || item.tags.includes(q[i]))) {
+            if (!(item.title.toLowerCase().includes(q[i]) || item.artist.toLowerCase().includes(q[i]) || item.tag.includes(q[i]))) {
                 return false
             }
         }

@@ -31,46 +31,84 @@ const parseData = (data) => {
     artist: data.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
     picture: data.basic_information.cover_image,
     format: [],
-    tags: []
+    region: [],
+    type: [],
+    tag: []
   }
 
-  if(data.basic_information.formats[0].name) {
-    result.format.push(data.basic_information.formats[0].name)
+  let tags = []
+  data.notes.filter(n => n.field_id === 4).map(n => n.value).forEach(t => {
+    tags = tags.concat(t.toLowerCase().split(',').map(v => v.trim()))
+  })
+  tags = tags.filter(v => !!v).map(v => v.toLowerCase())
+
+  let formats = []
+  data.basic_information.formats.forEach(f => {
+    formats.push(f.name)
+    formats.push(f.text)
+    formats = formats.concat(f.descriptions)
+  })
+  formats = formats.filter(v => !!v).map(v => v.toLowerCase())
+
+  if (formats.includes('7"')) {
+    result.format.push('7"')
+  } else if (formats.includes('10"')) {
+    result.format.push('10"')
+  } else if (formats.includes('lp') || formats.includes('12"')) {
+    result.format.push('12"')
   }
-  if(data.basic_information.formats[0].text) {
-    result.format.push(data.basic_information.formats[0].text)
+
+  if (formats.includes('cd') || tags.includes('cd')) {
+    result.format.push('cd')
   }
-  if(data.basic_information.formats[0].descriptions) {
-    result.format = result.format.concat(data.basic_information.formats[0].descriptions)
+
+  if (formats.includes('dvd') || tags.includes('dvd')) {
+    result.format.push('dvd')
   }
+
+  if (formats.includes('cassette') || tags.includes('cassette')) {
+    result.format.push('cassette')
+  }
+
+  if (tags.includes('est')) {
+    result.region.push('est')
+  }
+
+  if (tags.includes('west')) {
+    result.region.push('west')
+  }
+
+  if (tags.includes('music')) {
+    result.type.push('music')
+  }
+
+  if (tags.includes('spoken')) {
+    result.type.push('spoken')
+  }
+
+  if (tags.includes('compilation')) {
+    result.type.push('compilation')
+  }
+
+  result.tag.push(...result.format)
+  result.tag.push(...result.region)
+  result.tag.push(...result.type)
 
   if (result.format.length > 0) {
     result.format = [...new Set(result.format)]
     result.format.sort()
-
-    if (result.format.includes('7"')) {
-      result.tags.push('7"')
-    } else if (result.format.includes('10"')) {
-      result.tags.push('10"')
-    } else if (result.format.includes('LP') || result.format.includes('12"')) {
-      result.tags.push('12"')
-    }
-
-    if (result.format.includes('CD')) {
-      result.tags.push('cd')
-    }
   }
-
-  if (data.notes) {
-      const tags = data.notes.filter(n => n.field_id === 4).map(n => n.value)
-      for (var i = 0; i < tags.length; i++) {
-          result.tags = result.tags.concat(tags[i].toLowerCase().split(',').map(v => v.trim()))
-      }
+  if (result.region.length > 0) {
+    result.region = [...new Set(result.region)]
+    result.region.sort()
   }
-
-  if (result.tags.length > 0) {
-    result.tags = [...new Set(result.tags)]
-    result.tags.sort()
+  if (result.type.length > 0) {
+    result.type = [...new Set(result.type)]
+    result.type.sort()
+  }
+  if (result.tag.length > 0) {
+    result.tag = [...new Set(result.tag)]
+    result.tag.sort()
   }
 
   return result
@@ -78,13 +116,13 @@ const parseData = (data) => {
 
 exports.handler = async (event) => {
   const collectionPromise = getDiscogsJson('/collection/folders/0/releases')
-  const wantlistPromise = getDiscogsJson('/wants')
+  // const wantlistPromise = getDiscogsJson('/wants')
 
   const collection = await collectionPromise
-  const wantlist = await wantlistPromise
+  // const wantlist = await wantlistPromise
 
   const collectionResult = collection.releases.map(parseData)
-  const wantlistResult = wantlist.wants.map(parseData)
+  // const wantlistResult = wantlist.wants.map(parseData)
 
   const response = {
     statusCode: 200,
@@ -94,7 +132,7 @@ exports.handler = async (event) => {
     },
     body: JSON.stringify({
       collection: collectionResult,
-      wantlist: wantlistResult
+      wantlist: [] // wantlistResult
     })
   }
 
