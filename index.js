@@ -11,7 +11,7 @@ new Vue({
   },
   mounted () {
     axios
-      .get('https://47vr89cjrd.execute-api.eu-central-1.amazonaws.com/prod')
+      .get('https://api.roots.ee/discogs')
       .then(response => {
         let tags = {}
 
