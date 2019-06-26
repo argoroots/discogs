@@ -37,9 +37,11 @@ const parseData = (data) => {
   }
 
   let tags = []
-  data.notes.filter(n => n.field_id === 4).map(n => n.value).forEach(t => {
-    tags = tags.concat(t.toLowerCase().split(',').map(v => v.trim()))
-  })
+  if (data.notes) {
+    data.notes.filter(n => n.field_id === 4).map(n => n.value).forEach(t => {
+      tags = tags.concat(t.toLowerCase().split(',').map(v => v.trim()))
+    })
+  }
   tags = tags.filter(v => !!v).map(v => v.toLowerCase())
 
   let formats = []
