@@ -80,6 +80,10 @@ const parseData = (data) => {
     result.region.push('west')
   }
 
+  if (tags.includes('east')) {
+    result.region.push('east')
+  }
+
   if (tags.includes('music')) {
     result.type.push('music')
   }
