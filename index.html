@@ -14,12 +14,14 @@
         <a v-for="tag in tags" @click.prevent="filterByTag(tag)" :class="{ active: isActiveTag(tag) }" class="toggle left">{{ tag }}</a>
         <input type="text" name="" value="" v-model="q" :placeholder="'Search from ' + activeList">
       </div>
-      <div
+      <a
         v-for="item in filteredCollection"
         class="square"
         :style="{ 'background-image': `url('${item.picture}')` }"
         @mouseover="item.active = true"
         @mouseleave="item.active = false"
+        :href="`https://www.discogs.com/release/${item.id}`"
+        target="_blank"
       >
         <div v-if="item.active" class="info">
           <p class="artist">{{ item.artist }}</p>
@@ -27,7 +29,7 @@
           <p class="year">{{ item.year }}</p>
           <p class="format">{{ item.format.join(', ') }}</p>
         </div>
-      </div>
+      </a>
       <div class="footer">
           {{ filteredCollection.length }}
       </div>

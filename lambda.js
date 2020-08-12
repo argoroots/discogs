@@ -26,6 +26,7 @@ const getDiscogsJson = async (path) => {
 
 const parseData = (data) => {
   let result = {
+    id: data.id,
     title: data.basic_information.title,
     year: data.basic_information.year,
     artist: data.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
