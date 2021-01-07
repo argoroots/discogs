@@ -5,7 +5,7 @@ const getDiscogsJson = async (path) => {
     const options = {
       host: 'api.discogs.com',
       port: 443,
-      path: `/users/${process.env.DISCOGS_USER}/${path}?per_page=250&sort=artist&token=${process.env.DISCOGS_TOKEN}`,
+      path: `/users/${process.env.DISCOGS_USER}/${path}?per_page=500&sort=artist&token=${process.env.DISCOGS_TOKEN}`,
       method: 'GET',
       headers: { 'User-Agent': 'AWS Lambda' }
     }
@@ -131,17 +131,8 @@ exports.handler = async (event) => {
   const collectionResult = collection.releases.map(parseData)
   // const wantlistResult = wantlist.wants.map(parseData)
 
-  const response = {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'max-age=43200, must-revalidate'
-    },
-    body: JSON.stringify({
-      collection: collectionResult,
-      wantlist: [] // wantlistResult
-    })
+  return {
+    collection: collectionResult,
+    wantlist: [] // wantlistResult
   }
-
-  return response
 }
