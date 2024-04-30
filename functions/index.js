@@ -28,8 +28,8 @@ const parseData = (data) => {
   let result = {
     id: data.id,
     title: data.basic_information.title,
-    year: data.basic_information.year,
-    artist: data.basic_information.artists[0].name.replace(' (2)', '').replace(' (3)', '').replace(' (4)', '').replace(' (5)', '').replace(' (6)', ''),
+    year: data.basic_information.year || null,
+    artist: data.basic_information.artists[0].name.split(' (')[0],
     picture: data.basic_information.cover_image,
     format: [],
     region: [],
@@ -121,18 +121,26 @@ const parseData = (data) => {
   return result
 }
 
-exports.handler = async (event) => {
+async function main(args) {
   const collectionPromise = getDiscogsJson('/collection/folders/0/releases')
-  // const wantlistPromise = getDiscogsJson('/wants')
-
   const collection = await collectionPromise
-  // const wantlist = await wantlistPromise
-
   const collectionResult = collection.releases.map(parseData)
-  // const wantlistResult = wantlist.wants.map(parseData)
+
+  collectionResult.sort((a,b)=>{
+    if (a.artist + ' ' + a.year < b.artist + ' ' + b.year) {
+      return -1
+    }
+    if (a.artist + ' ' + a.year > b.artist + ' ' + b.year) {
+      return 1
+    }
+
+    return 0
+  })
+
 
   return {
-    collection: collectionResult,
-    wantlist: [] // wantlistResult
+    body: {
+      collection: collectionResult
+    }
   }
 }

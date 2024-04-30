@@ -11,7 +11,7 @@ new Vue({
   },
   mounted () {
     axios
-      .get('https://api.roots.ee/discogs')
+      .get('https://faas-fra1-afec6ce7.doserverless.co/api/v1/web/fn-97f69b9b-30c7-41dd-947b-f687dbc54ade/default/discogs')
       .then(response => {
         let tags = {}
 
