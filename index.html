@@ -18,11 +18,12 @@
       <a
         v-for="item in filteredCollection"
         class="square"
-        :style="{ 'background-image': `url('${item.picture}')` }"
+        :style="{ 'background-image': item.isVisible ? `url('${item.picture}')` : '' }"
         @mouseover="item.active = true"
         @mouseleave="item.active = false"
         :href="`https://www.discogs.com/release/${item.id}`"
         target="_blank"
+        v-intersect="isVisible => item.isVisible = isVisible"
       >
         <div v-if="item.active" class="info">
           <p class="artist">{{ item.artist }}</p>

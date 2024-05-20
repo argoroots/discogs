@@ -1,3 +1,24 @@
+Vue.directive('intersect', {
+  inserted: function (el, binding) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          binding.value(true)
+          observer.unobserve(el)
+        } else {
+          binding.value(false)
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px 0px 50% 0px',
+        threshold: 1.0
+      }
+    )
+    observer.observe(el)
+  }
+})
+
 new Vue({
   el: '#app',
   data () {
@@ -15,21 +36,23 @@ new Vue({
       .then(response => {
         let tags = {}
 
-        this.collection = response.data.collection.map(i => {
+        this.collection = response.data.collection?.map(i => {
           i.tag.forEach(tag => {
               tags[tag] = false
           })
           i.active = false
+          i.isVisible = false
           return i
-        })
+        }) || []
 
         this.tags = Object.keys(tags)
         this.tags = this.tags.sort()
 
-        this.wantlist = response.data.wantlist.map(i => {
+        this.wantlist = response.data.wantlist?.map(i => {
           i.active = false
+          i.isVisible = false
           return i
-        })
+        }) || []
       })
   },
   computed: {
@@ -39,12 +62,12 @@ new Vue({
       }
 
       const result = this[this.activeList].filter((item) => {
-        const q = this.q.toLowerCase().split(' ')
+        const q = this.q.toLowerCase().split(' ') || []
 
         for (var i = 0; i < q.length; i++) {
-            if (!(item.title.toLowerCase().includes(q[i]) || item.artist.toLowerCase().includes(q[i]) || item.tag.includes(q[i]))) {
-                return false
-            }
+          if (!(item.title.toLowerCase().includes(q[i]) || item.artist.toLowerCase().includes(q[i]) || item.tag.includes(q[i]))) {
+            return false
+          }
         }
 
         return true
@@ -59,20 +82,20 @@ new Vue({
       location.hash = this.activeList
     },
     filterByTag (tag) {
-        let q = this.q.split(' ')
+      let q = this.q.split(' ') || []
 
-        if (q.includes(tag)) {
-            q = q.filter(i => i !== tag)
-        } else {
-            q.push(tag)
-        }
+      if (q.includes(tag)) {
+        q = q.filter(i => i !== tag)
+      } else {
+        q.push(tag)
+      }
 
-        q.sort()
+      q.sort()
 
-        this.q = q.join(' ').trim() ? q.join(' ').trim() + ' ' : ''
+      this.q = q.join(' ').trim() ? q.join(' ').trim() + ' ' : ''
     },
     isActiveTag (tag) {
-        return this.q.split(' ').filter(i => i === tag).length > 0
+      return this.q.split(' ').filter(i => i === tag)?.length > 0
     }
   }
 })
