@@ -32,7 +32,7 @@ new Vue({
   },
   mounted () {
     axios
-      .get('https://faas-fra1-afec6ce7.doserverless.co/api/v1/web/fn-97f69b9b-30c7-41dd-947b-f687dbc54ade/default/discogs')
+      .get('https://argoroots-public.s3.eu-central-1.amazonaws.com/discogs.json')
       .then(response => {
         let tags = {}
 
