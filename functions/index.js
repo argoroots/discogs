@@ -1,4 +1,5 @@
 const http = require('https')
+const { S3Client, PutObjectCommand, PutObjectAclCommand, PutObjectTaggingCommand } = require('@aws-sdk/client-s3')
 
 const getDiscogsJson = async (path) => {
   return new Promise((resolve, reject) => {
@@ -9,15 +10,15 @@ const getDiscogsJson = async (path) => {
       method: 'GET',
       headers: { 'User-Agent': 'AWS Lambda' }
     }
-    http.get(options, response => {
-      var body = ''
+    http.get(options, (response) => {
+      let body = ''
 
-      response.on('data', function(d) {
+      response.on('data', function (d) {
         body += d
       })
 
-      response.on('end', function() {
-        var parsed = JSON.parse(body)
+      response.on('end', function () {
+        const parsed = JSON.parse(body)
         resolve(parsed)
       })
     })
@@ -25,7 +26,7 @@ const getDiscogsJson = async (path) => {
 }
 
 const parseData = (data) => {
-  let result = {
+  const result = {
     id: data.id,
     title: data.basic_information.title,
     year: data.basic_information.year || null,
@@ -39,14 +40,14 @@ const parseData = (data) => {
 
   let tags = []
   if (data.notes) {
-    data.notes.filter(n => n.field_id === 4).map(n => n.value).forEach(t => {
+    data.notes.filter(n => n.field_id === 4).map(n => n.value).forEach((t) => {
       tags = tags.concat(t.toLowerCase().split(',').map(v => v.trim()))
     })
   }
   tags = tags.filter(v => !!v).map(v => v.toLowerCase())
 
   let formats = []
-  data.basic_information.formats.forEach(f => {
+  data.basic_information.formats.forEach((f) => {
     formats.push(f.name)
     formats.push(f.text)
     formats = formats.concat(f.descriptions)
@@ -121,12 +122,12 @@ const parseData = (data) => {
   return result
 }
 
-async function main(args) {
+async function main (args) {
   const collectionPromise = getDiscogsJson('/collection/folders/0/releases')
   const collection = await collectionPromise
   const collectionResult = collection.releases.map(parseData)
 
-  collectionResult.sort((a,b)=>{
+  collectionResult.sort((a, b) => {
     if (a.artist + ' ' + a.year < b.artist + ' ' + b.year) {
       return -1
     }
@@ -137,10 +138,38 @@ async function main(args) {
     return 0
   })
 
+  const jsonResult = JSON.stringify({ collection: collectionResult })
+  const bucketName = 'argoroots-public'
+  const key = 'discogs.json'
 
-  return {
-    body: {
-      collection: collectionResult
+  const s3Client = new S3Client({
+    region: process.env.S3_REGION,
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_KEY
     }
-  }
+  })
+
+  await s3Client.send(new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    Body: jsonResult,
+    ContentType: 'application/json'
+  }))
+
+  await s3Client.send(new PutObjectAclCommand({
+    Bucket: bucketName,
+    Key: key,
+    ACL: 'public-read'
+  }))
+
+  await s3Client.send(new PutObjectTaggingCommand({
+    Bucket: bucketName,
+    Key: key,
+    Tagging: {
+      TagSet: [{ Key: 'Project', Value: 'discogs' }]
+    }
+  }))
+
+  return { ok: true }
 }
