@@ -73,8 +73,8 @@ new Vue({
         return true
       })
 
-      list.forEach(item => {
-        item.isVisible = filtered.includes(item)
+      result.forEach(item => {
+        item.isVisible = true
       })
 
       return result
