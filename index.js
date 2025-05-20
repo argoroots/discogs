@@ -73,6 +73,10 @@ new Vue({
         return true
       })
 
+      list.forEach(item => {
+        item.isVisible = filtered.includes(item)
+      })
+
       return result
     }
   },
